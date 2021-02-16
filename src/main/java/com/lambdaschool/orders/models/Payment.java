@@ -1,8 +1,10 @@
 package com.lambdaschool.orders.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "payments")
@@ -12,20 +14,21 @@ public class Payment
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long paymentid;
 
-    @Column(nullable = false)
+    @Column(nullable = false,
+        unique = true)
     private String type;
 
     @ManyToMany(mappedBy = "payments")
-    private List<Order> orders = new ArrayList<>();
-
-    public Payment(long paymentid, String type)
-    {
-        this.paymentid = paymentid;
-        this.type = type;
-    }
+    @JsonIgnoreProperties("payments")
+    private Set<Order> orders = new HashSet<>();
 
     public Payment()
     {
+    }
+
+    public Payment(String type)
+    {
+        this.type = type;
     }
 
     public long getPaymentid()
@@ -46,14 +49,5 @@ public class Payment
     public void setType(String type)
     {
         this.type = type;
-    }
-
-    @Override
-    public String toString()
-    {
-        return "Payment{" +
-                "paymentid=" + paymentid +
-                ", type='" + type + '\'' +
-                '}';
     }
 }

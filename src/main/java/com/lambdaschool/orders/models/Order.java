@@ -3,6 +3,8 @@ package com.lambdaschool.orders.models;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "orders")
@@ -14,25 +16,32 @@ public class Order
 
     private double ordamount;
     private double advanceamount;
+    private String orderdescription;
+
+    @ManyToMany()
+    @JoinTable(name = "orderspayments",
+        joinColumns = @JoinColumn(name = "ordnum"),
+        inverseJoinColumns = @JoinColumn(name = "paymentid"))
+    @JsonIgnoreProperties("orders")
+    Set<Payment> payments = new HashSet<>();
+
 
     @ManyToOne
-    @JoinColumn(name = "custcode", nullable = false)
+    @JoinColumn(name = "custcode",
+            nullable = false)
     @JsonIgnoreProperties("orders")
     private Customer customer;
 
-    private String orderdescription;
-
-    public Order(long ordnum, double ordamount, double advanceamount, Customer customer, String orderdescription)
-    {
-        this.ordnum = ordnum;
-        this.ordamount = ordamount;
-        this.advanceamount = advanceamount;
-        this.customer = customer;
-        this.orderdescription = orderdescription;
-    }
-
     public Order()
     {
+    }
+
+    public Order(double ordamount, double advanceamount, String orderdescription, Customer customer)
+    {
+        this.ordamount = ordamount;
+        this.advanceamount = advanceamount;
+        this.orderdescription = orderdescription;
+        this.customer = customer;
     }
 
     public long getOrdnum()
@@ -85,15 +94,4 @@ public class Order
         this.orderdescription = orderdescription;
     }
 
-    @Override
-    public String toString()
-    {
-        return "Order{" +
-                "ordnum=" + ordnum +
-                ", ordamount=" + ordamount +
-                ", advanceamount=" + advanceamount +
-                ", customer=" + customer +
-                ", orderdescription='" + orderdescription + '\'' +
-                '}';
-    }
 }

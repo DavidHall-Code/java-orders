@@ -1,13 +1,13 @@
 package com.lambdaschool.orders;
 
-import com.github.javafaker.Faker;
+//import com.github.javafaker.Faker;
 import com.lambdaschool.orders.models.Agent;
 import com.lambdaschool.orders.models.Customer;
 import com.lambdaschool.orders.models.Order;
 import com.lambdaschool.orders.models.Payment;
-import com.lambdaschool.orders.repositories.AgentsRepository;
-import com.lambdaschool.orders.repositories.CustomersRepository;
-import com.lambdaschool.orders.repositories.OrdersRepository;
+import com.lambdaschool.orders.repositories.AgentRepository;
+import com.lambdaschool.orders.repositories.CustomerRepository;
+import com.lambdaschool.orders.repositories.OrderRepository;
 import com.lambdaschool.orders.repositories.PaymentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -20,7 +20,7 @@ import java.util.Random;
 import java.util.Set;
 
 @Transactional
-@Component
+//@Component
 public class SeedData
         implements CommandLineRunner
 {
@@ -28,19 +28,19 @@ public class SeedData
      * Connects the customer table to this SeedData method
      */
     @Autowired
-    private CustomersRepository custrepos;
+    private CustomerRepository custrepos;
 
     /**
      * Connects the agents table to this SeedData method
      */
     @Autowired
-    private AgentsRepository agentrepos;
+    private AgentRepository agentrepos;
 
     /**
      * Connects the orders table to this SeedData method
      */
     @Autowired
-    private OrdersRepository ordersrepos;
+    private OrderRepository ordersrepos;
 
     /**
      * Connects the payment table to this SeedData method
